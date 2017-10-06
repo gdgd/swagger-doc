@@ -1,0 +1,461 @@
+swagger: '2.0'
+info:
+  description: イントワークスAPI的なもの
+  version: 1.0.0
+  title: アプリコンペ_teamC API
+host: localhost
+basePath: /intworks/v1
+tags:
+  - name: managements
+    description: 管理関連
+    externalDocs:
+      description: 詳細はこちらのドキュメント見てね
+      url: 'http://localhost'
+  - name: offices
+    description: 事務所の情報
+  - name: nfctags
+    description: nfcタグに関する情報
+  - name: managements
+    description: 管理情報
+schemes:
+  - http
+paths:
+  /offices:
+    get:
+      tags:
+        - offices
+      summary: オフィス一覧取得
+      description: オフィス関連の情報を取得します
+      operationId: getoffices
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            $ref: '#/definitions/office'
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - offices
+      summary: オフィス一覧更新
+      description: オフィス関連の情報を取得します
+      operationId: addoffice
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/office'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+  '/offices/{id}':
+    get:
+      tags:
+        - offices
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/office'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+    put:
+      tags:
+        - offices
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: putoffices
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/office'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  /nfctags:
+    get:
+      tags:
+        - nfctags
+      summary: オフィス一覧取得
+      description: オフィス関連の情報を取得します
+      operationId: getnfctags
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            $ref: '#/definitions/nfctags'
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - nfctags
+      summary: オフィス一覧更新
+      description: オフィス関連の情報を取得します
+      operationId: addnfctags
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/nfctags'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+  '/nfctags/{id}':
+    get:
+      tags:
+        - nfctags
+      summary: 時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/nfctags'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+    put:
+      tags:
+        - nfctags
+      summary: 時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/nfctags'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  '/nfctags/{id}/touch':
+    put:
+      tags:
+        - nfctags
+      summary: nfcタグのタッチ記録を登録
+      description: nfcタグのタッチ記録は登録のみ行えます。記録の変更はできません。
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/nfctags'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  '/managements/offices/{officesid}/check_lists/':
+    get:
+      tags:
+        - managements
+      summary: 時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: officesid
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/checklist'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+    post:
+      tags:
+        - managements
+      summary: 時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: officesid
+          in: path
+          description: 事務所ID指定
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/checklist'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  '/managements/offices/{officesid}/check_lists/{id}':
+    get:
+      tags:
+        - managements
+      summary: チェックリストAPI検索　時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: officesid
+          in: path
+          description: 事務所ID
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: チェックリストID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/checklist'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+    put:
+      tags:
+        - managements
+      summary: チェックリスト登録用API　時間があれば作っても良さそう
+      description: ''
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: officesid
+          in: path
+          description: 事務所ID
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: チェックリストID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/checklist'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  '/managements/offices/{officesid}/check_lists/{id}/checked':
+    get:
+      tags:
+        - managements
+      summary: チェックリストの整合性を取得するAPI
+      description: タッチ記録を参照し、チェックリスト全てタッチ済みならtrueを返すイメージです。
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: officesid
+          in: path
+          description: 事務所ID
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: チェックリストID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: レスポンスは今は適当
+          schema:
+            $ref: '#/definitions/checklist'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+definitions:
+  office:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      location:
+        type: string
+      adate:
+        type: string
+        format: date-time
+      udate:
+        type: string
+        format: date-time
+    xml:
+      name: Office
+  checklist:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      officeid:
+        type: integer
+        format: int64
+      nfctagid:
+        type: integer
+        format: int64
+      check:
+        type: object
+        properties:
+          status:
+            type: integer
+          date:
+            type: string
+            format: date-time
+      others:
+        type: object
+        properties:
+          status:
+            type: integer
+          biko:
+            type: string
+      adate:
+        type: string
+        format: date-time
+      udate:
+        type: string
+        format: date-time
+    xml:
+      name: checklist
+  nfctags:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      biko:
+        type: string
+      officeid:
+        type: integer
+        format: int64
+      adate:
+        type: string
+        format: date-time
+      udate:
+        type: string
+        format: date-time
+    xml:
+      name: nfctags
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+
