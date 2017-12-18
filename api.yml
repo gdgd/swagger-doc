@@ -1,403 +1,369 @@
 swagger: '2.0'
 info:
-  description: イントワークスAPI的なもの
+  description: "イントワークスAPI的なもの"
   version: 1.0.0
-  title: アプリコンペ_teamC API
+  title: "アプリコンペ_teamC API"
 host: localhost
 basePath: /intworks/v1
 tags:
-  - name: managements
-    description: 管理関連
-    externalDocs:
-      description: 詳細はこちらのドキュメント見てね
-      url: 'http://localhost'
-  - name: offices
-    description: 事務所の情報
-  - name: nfctags
-    description: nfcタグに関する情報
-  - name: managements
-    description: 管理情報
+  - name: "カスタマ情報"
+    description: "カスタマ関連情報 ※カスタマ= 契約者"
+  - name: "チェックグループ情報"
+    description: "チェックグループの一覧取得、登録、更新、削除を行うAPI"
+  - name: "チェックアイテム情報"
+    description: "チェックアイテムの取得、登録、更新、削除を行うAPI"
+  - name: "チェックグループの操作"
+    description: "チェックアイテム一覧のチェック完了などを行うAPI"
 schemes:
   - http
 paths:
-  /offices:
+  /customers/{customer_id}/users/{user_id}:
     get:
       tags:
-        - offices
-      summary: オフィス一覧取得
-      description: オフィス関連の情報を取得します
-      operationId: getoffices
-      consumes:
-        - application/json
-        - application/xml
+      - "カスタマ情報"
+      summary: "確認者情報取得"
+      description: "確認者情報取得するAPI"
       produces:
-        - application/json
-        - application/xml
+      - "application/json"
+      parameters:
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "user_id"
+          in: "path"
+          description: "ユーザID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: 成功時のレスポンス
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/office'
-        '405':
-          description: Invalid input
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+          
+  /customers/{customer_id}/check_groups:
+    get:
+      tags:
+      - "チェックグループ情報"
+      summary: "チェックグループ一覧取得"
+      description: "チェックグループの一覧を取得するAPI。データは複数件取得する。"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+    put:
+      tags:
+      - "チェックグループ情報"
+      summary: "チェックグループ登録"
+      description: "チェックグループを登録するAPI。登録は１件のチェックグループを登録する。"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+  /customers/{customer_id}/check_groups/{check_groups_id}:
     post:
       tags:
-        - offices
-      summary: オフィス一覧更新
-      description: オフィス関連の情報を取得します
-      operationId: addoffice
-      consumes:
-        - application/json
-        - application/xml
+      - "チェックグループ情報"
+      summary: "チェックグループの更新"
+      description: "チェックグループを更新するAPI。更新は必ず１件のチェックグループを対象とする。"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - in: body
-          name: body
-          description: Pet object that needs to be added to the store
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          schema:
-            $ref: '#/definitions/office'
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーグループID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        '405':
-          description: Validation exception
-  '/offices/{id}':
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+    delete:
+      tags:
+      - "チェックグループ情報"
+      summary: "チェックグループの更新"
+      description: "チェックグループの一覧を取得するAPI"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+          
+  /customers/{customer_id}/check_groups/{check_groups_id}/check_items:
     get:
       tags:
-        - offices
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
+      - "チェックアイテム情報"
+      summary: "チェックアイテム一覧の取得"
+      description: "チェックグループに所属するチェックアイテム一覧を取得するAPI。"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - name: id
-          in: path
-          description: 事務所ID指定
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          type: integer
-          format: int64
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーグループID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: successful operation
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/office'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
     put:
       tags:
-        - offices
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: putoffices
+      - "チェックアイテム情報"
+      summary: "チェックアイテム一覧の取得"
+      description: "チェックグループに所属するチェックアイテムを取得するAPI。"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - name: id
-          in: path
-          description: 事務所ID指定
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          type: integer
-          format: int64
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: successful operation
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/office'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-  /nfctags:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+  /customers/{customer_id}/check_groups/{check_groups_id}/check_items/{check_item_id}:
     get:
       tags:
-        - nfctags
-      summary: オフィス一覧取得
-      description: オフィス関連の情報を取得します
-      operationId: getnfctags
-      consumes:
-        - application/json
-        - application/xml
+      - "チェックアイテム情報"
+      summary: "チェックアイテム単体の取得"
+      description: "チェックグループに所属するチェックアイテム単体を取得するAPI。"
       produces:
-        - application/json
-        - application/xml
+      - "application/xml"
+      - "application/json"
+      parameters:
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーグループID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "check_item_id"
+          in: "path"
+          description: "チェックアイテムID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: 成功時のレスポンス
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/nfctags'
-        '405':
-          description: Invalid input
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
     post:
       tags:
-        - nfctags
-      summary: オフィス一覧更新
-      description: オフィス関連の情報を取得します
-      operationId: addnfctags
-      consumes:
-        - application/json
-        - application/xml
+      - "チェックアイテム情報"
+      summary: "チェックアイテムの更新"
+      description: "チェックグループに所属するチェックアイテムを更新するAPI。"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - in: body
-          name: body
-          description: Pet object that needs to be added to the store
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          schema:
-            $ref: '#/definitions/nfctags'
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "check_item_id"
+          in: "path"
+          description: "チェックアイテムID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        '405':
-          description: Validation exception
-  '/nfctags/{id}':
-    get:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"          
+    delete:
       tags:
-        - nfctags
-      summary: 時間があれば作っても良さそう
-      description: ''
+      - "チェックアイテム情報"
+      summary: "チェックアイテムの削除"
+      description: "チェックグループに所属するチェックアイテムを削除するAPI。"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - name: id
-          in: path
-          description: 事務所ID指定
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          type: integer
-          format: int64
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "check_item_id"
+          in: "path"
+          description: "チェックアイテムID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: successful operation
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/nfctags'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"   
+          
+  /customers/{customer_id}/check_groups/{check_groups_id}/result:
     put:
       tags:
-        - nfctags
-      summary: 時間があれば作っても良さそう
-      description: ''
+      - "チェックグループの操作"
+      summary: "チェックグループの確認完了を登録"
+      description: "チェックグループの確認が完了したタイミングでログを記録するためのAPI
+      。登録情報には各チェックアイテムのチェックされたものだけ記録され、それ以外はリクエストに含めない。また各チェックアイテムをチェックした時間も記録される"
       produces:
-        - application/xml
-        - application/json
+      - "application/xml"
+      - "application/json"
       parameters:
-        - name: id
-          in: path
-          description: 事務所ID指定
+        - name: "customer_id"
+          in: "path"
+          description: "カスタマーID"
           required: true
-          type: integer
-          format: int64
+          type: "integer"
+          format: "int64"
+        - name: "check_groups_id"
+          in: "path"
+          description: "カスタマーグループID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        '200':
-          description: successful operation
+        200:
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/nfctags'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-  '/nfctags/{id}/touch':
-    put:
-      tags:
-        - nfctags
-      summary: nfcタグのタッチ記録を登録
-      description: nfcタグのタッチ記録は登録のみ行えます。記録の変更はできません。
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: id
-          in: path
-          description: 事務所ID指定
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/nfctags'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-  '/managements/offices/{officesid}/check_lists/':
-    get:
-      tags:
-        - managements
-      summary: 時間があれば作っても良さそう
-      description: ''
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: officesid
-          in: path
-          description: 事務所ID指定
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/checklist'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-    post:
-      tags:
-        - managements
-      summary: 時間があれば作っても良さそう
-      description: ''
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: officesid
-          in: path
-          description: 事務所ID指定
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/checklist'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-  '/managements/offices/{officesid}/check_lists/{id}':
-    get:
-      tags:
-        - managements
-      summary: チェックリストAPI検索　時間があれば作っても良さそう
-      description: ''
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: officesid
-          in: path
-          description: 事務所ID
-          required: true
-          type: integer
-          format: int64
-        - name: id
-          in: path
-          description: チェックリストID
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/checklist'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-    put:
-      tags:
-        - managements
-      summary: チェックリスト登録用API　時間があれば作っても良さそう
-      description: ''
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: officesid
-          in: path
-          description: 事務所ID
-          required: true
-          type: integer
-          format: int64
-        - name: id
-          in: path
-          description: チェックリストID
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/checklist'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-  '/managements/offices/{officesid}/check_lists/{id}/checked':
-    get:
-      tags:
-        - managements
-      summary: チェックリストの整合性を取得するAPI
-      description: タッチ記録を参照し、チェックリスト全てタッチ済みならtrueを返すイメージです。
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: officesid
-          in: path
-          description: 事務所ID
-          required: true
-          type: integer
-          format: int64
-        - name: id
-          in: path
-          description: チェックリストID
-          required: true
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: レスポンスは今は適当
-          schema:
-            $ref: '#/definitions/checklist'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
+            $ref: "#/definitions/check_groups"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
 definitions:
-  office:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-      location:
-        type: string
-      adate:
-        type: string
-        format: date-time
-      udate:
-        type: string
-        format: date-time
-    xml:
-      name: Office
-  checklist:
+  check_groups:
     type: object
     properties:
       id:
@@ -426,36 +392,8 @@ definitions:
             type: integer
           biko:
             type: string
-      adate:
-        type: string
-        format: date-time
-      udate:
-        type: string
-        format: date-time
     xml:
       name: checklist
-  nfctags:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-      biko:
-        type: string
-      officeid:
-        type: integer
-        format: int64
-      adate:
-        type: string
-        format: date-time
-      udate:
-        type: string
-        format: date-time
-    xml:
-      name: nfctags
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
-
